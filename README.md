@@ -81,7 +81,7 @@ CLIから実行する際に、パラメータチェックのため利用して�
 --region ap-northeast-1 \
 --zip-file fileb://lambda.zip \
 --role arn:aws:iam::xxxxxxxxxxxx:role/extend_qiita_api_exec_role \
---handler main.extend_qiita_get_items_api \
+--handler lambda_handler.lambda_handler \
 --runtime python3.6 \
 --timeout 300 \
 --memory-size 1024
