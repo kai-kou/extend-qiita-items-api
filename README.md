@@ -6,7 +6,7 @@ Qiita記事情報取得APIにViewsとストック数を含める拡張API
 
 Qiita APIから記事一覧を取得した場合、Viewsとストック数が取得できないため、それらをまとめて取得できるAPI。  
 
-注意事項として、記事を個別に取得する必要があるため、Qiita APIの利用制限に留意する必要があります。
+注意事項として、記事を個別に取得する必要があるため、Qiita APIの利用制限に留意する必要があります。
 
 APIアクセス回数制限
 
@@ -49,22 +49,61 @@ CLIから実行する際に、パラメータチェックのため利用して�
   --trigger-http
 ```
 
+### AWS Lambda
+
+```sh
+> aws configure
+
+> aws iam create-role --role-name extend_qiita_api_exec_role \
+  --assume-role-policy-document settings/role-policy.json
+
+> aws iam get-role --role-name extend_qiita_api_exec_role
+
+> aws iam get-policy --policy-arn "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+
+> aws iam attach-role-policy --role-name extend_qiita_api_exec_role \
+  --policy-arn "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+
+> aws iam list-attached-role-policies --role-name extend_qiita_api_exec_role
+
+> cd extend-qiita-items-api/src
+
+> pip install -r requirements.txt -t deploy
+
+> cp *.py deploy
+
+> cd deploy
+
+> zip -r lambda.zip *
+
+> aws lambda create-function \
+--function-name extend_qiita_api \
+--region ap-northeast-1 \
+--zip-file fileb://lambda.zip \
+--role arn:aws:iam::xxxxxxxxxxxx:role/extend_qiita_api_exec_role \
+--handler main.extend_qiita_get_items_api \
+--runtime python3.6 \
+--timeout 300 \
+--memory-size 1024
+```
+
 ## Usage
 
 ### ローカル
 
 ```sh
-> python get_qiita_items.py アクセストークン --page=1 --per_page=20
+> python get_qiita_items.py Qiitaのアクセストークン --page=1 --per_page=20
 ```
 
-### Cloud Functions
+### Cloud Functions or AWS Lambda
 
 ```sh
-> curl https://us-central1-[GCPプロジェクトID].cloudfunctions.net/extend_qiita_get_items_api?token=[Qiitaのアクセストークン]?page=1&per_page=20
+> curl https://[endpoint]?token=[Qiitaのアクセストークン]&page=1&per_page=20
 ```
 
 ```sh
-> curl -sSLH "Authorization: Bearer [Qiitaのアクセストークン]" https://us-central1-[GCPプロジェクトID].cloudfunctions.net/extend_qiita_get_items_api?page=1&per_page=20
+> curl -sSLH "Authorization: Bearer [Qiitaのアクセストークン]" \
+  https://[endpoint]?page=1&per_page=20
 ```
 
 ## Document
