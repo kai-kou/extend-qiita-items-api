@@ -4,11 +4,19 @@ Qiita記事情報取得APIにViewsとストック数を含める拡張API
 
 ## Description
 
-Qiita APIから記事一覧を取得した場合、Viewsとストック数が取得できないため、それらをまとめて取得できるAPI。  
+Qiita APIから記事一覧を取得した場合、Viewsとストック数が取得できないため、それらをまとめて取得できるAPIです。  
+
+利用したQiita APIは以下となります。  
+
+Qiita API v2 ドキュメント  
+https://qiita.com/api/v2/docs#%E6%8A%95%E7%A8%BF
+
+- GET /api/v2/authenticated_user/items
+- GET /api/v2/items/:item_id
 
 注意事項として、記事を個別に取得する必要があるため、Qiita APIの利用制限に留意する必要があります。  
 
-APIアクセス回数制限
+APIアクセス回数制限  
 
 - 認証なし:    60回/h
 - 認証あり: 1,000回/h
@@ -17,15 +25,15 @@ APIアクセス回数制限
 
 ### requests
 
-Qiita APIにアクセスするために利用しています。
+Qiita APIにアクセスするために利用しています。  
 
 ### joblib
 
-記事ごとにViews、ストック数を取得する際に並列で取得するのに利用しています。
+記事ごとにViews、ストック数を取得する際に並列で取得するのに利用しています。  
 
 ### docopt
 
-CLIから実行する際に、パラメータチェックのため利用しています。
+CLIから実行する際に、パラメータチェックのため利用しています。  
 
 
 ## Install
