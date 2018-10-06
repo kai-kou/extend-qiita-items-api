@@ -115,3 +115,6 @@ CLIから実行する際に、パラメータチェックのため利用して�
 ```
 
 ## Document
+
+Qiita APIを利用して記事のViewsとストック数がまとめて取得できるAPIを作ってみた
+https://qiita.com/kai_kou/items/3f10ce93f4aa3b57b2d0
